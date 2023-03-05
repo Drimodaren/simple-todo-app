@@ -12,6 +12,6 @@ export const addNewTodo = async (newPartialTodo) => {
 export const updateTodoById = async (id, newTodo) => {
   return newTodo;
 };
-export const deleteTodo = async (id) => {
+export const deleteTodobyId = async (id) => {
   return id;
 };

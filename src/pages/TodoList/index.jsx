@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TodoContext } from '../../context';
-import { getAllTodos, updateTodoById } from '../../services/todoAdapter';
+import { deleteTodobyId, getAllTodos, updateTodoById } from '../../services/todoAdapter';
 import TodoItem from './TodoItem';
 
 export const LOADING_STATE = { NEVER: 'Never', LOADING: 'Loading', LOADED: 'Loaded' };
@@ -47,7 +47,17 @@ export default function TodoList() {
     }
   };
 
-  const deleteTodo = async () => {};
+  const deleteTodo = async (id) => {
+    try {
+      setLoading(LOADING_STATE.LOADING);
+      const deletedId = await deleteTodobyId(id);
+      setTodos((prevTodos) => prevTodos.filter((el) => el.id !== deletedId));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(LOADING_STATE.LOADED);
+    }
+  };
 
   return (
     <TodoContext.Provider value={{ addNewTodo, toggleCompleted, deleteTodo }}>
