@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllTodos } from '../../services/todoAdapter';
+import TodoItem from './TodoItem';
 
 export const LOADING_STATE = { NEVER: 'Never', LOADING: 'Loading', LOADED: 'Loaded' };
 export default function TodoList() {
@@ -22,5 +23,11 @@ export default function TodoList() {
     cb();
   }, []);
 
-  return <div>TodoList</div>;
+  return (
+    <div>
+      {todos.map((item) => (
+        <TodoItem key={item.id} id={item.id} title={item.title} completed={item.completed} />
+      ))}
+    </div>
+  );
 }
