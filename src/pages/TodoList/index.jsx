@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TodoContext } from '../../context';
-import { getAllTodos } from '../../services/todoAdapter';
+import { getAllTodos, updateTodoById } from '../../services/todoAdapter';
 import TodoItem from './TodoItem';
 
 export const LOADING_STATE = { NEVER: 'Never', LOADING: 'Loading', LOADED: 'Loaded' };
@@ -24,19 +24,38 @@ export default function TodoList() {
     cb();
   }, []);
 
-  const addNewTodo = async ()=>{}
+  const addNewTodo = async () => {};
 
-  const toggleCompleted = async ()=>{}
+  const toggleCompleted = async (id) => {
+    const todo = todos.find((el) => el.id === id);
+    const newTodo = { ...todo, completed: !todo.completed };
+    try {
+      setLoading(LOADING_STATE.LOADING);
+      const updateTodo = await updateTodoById(id, newTodo);
+      setTodos((prevTodos) =>
+        prevTodos.map((el) => {
+          if (el.id !== id) {
+            return id;
+          }
+          return updateTodo;
+        })
+      );
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(LOADING_STATE.LOADED);
+    }
+  };
 
-  const deleteTodo = async ()=>{}
+  const deleteTodo = async () => {};
 
   return (
-    <TodoContext.Provider value = {{addNewTodo,toggleCompleted,deleteTodo}}>
-    <div>
-      {todos.map((item) => (
-        <TodoItem key={item.id} id={item.id} title={item.title} completed={item.completed} />
-      ))}
-    </div>
+    <TodoContext.Provider value={{ addNewTodo, toggleCompleted, deleteTodo }}>
+      <div>
+        {todos.map((item) => (
+          <TodoItem key={item.id} id={item.id} title={item.title} completed={item.completed} />
+        ))}
+      </div>
     </TodoContext.Provider>
   );
 }
