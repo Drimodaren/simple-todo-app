@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { TodoContext } from '../../context';
 import { getAllTodos } from '../../services/todoAdapter';
 import TodoItem from './TodoItem';
 
@@ -23,11 +24,19 @@ export default function TodoList() {
     cb();
   }, []);
 
+  const addNewTodo = async ()=>{}
+
+  const toggleCompleted = async ()=>{}
+
+  const deleteTodo = async ()=>{}
+
   return (
+    <TodoContext.Provider value = {{addNewTodo,toggleCompleted,deleteTodo}}>
     <div>
       {todos.map((item) => (
         <TodoItem key={item.id} id={item.id} title={item.title} completed={item.completed} />
       ))}
     </div>
+    </TodoContext.Provider>
   );
 }
