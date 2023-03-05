@@ -4,17 +4,17 @@ import { TodoContext } from '../../../context';
 export default function TodoItem({ id, title, completed }) {
   const { toggleCompleted, deleteTodo } = useContext(TodoContext);
 
-  const handleToggle = (id) => {
+  const handleToggle = () => {
     toggleCompleted(id);
   };
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     deleteTodo(id);
   };
   return (
     <div>
       {title}
 
-      <input type="checkbox" completed={completed} onChange={handleToggle} />
+      <input type="checkbox" checked={completed} onChange={handleToggle} />
       <button onClick={handleDelete}>delete</button>
     </div>
   );

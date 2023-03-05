@@ -33,7 +33,7 @@ export default function TodoList() {
   const newTodo = async (newPartialTodo) => {
     try {
       const newTodo = await addNewTodo(newPartialTodo);
-      setTodos((prevTodos) => [...newTodo, prevTodos]);
+      setTodos((prevTodos) => [newTodo, ...prevTodos]);
     } catch (e) {
       setError(e.message);
     }
